@@ -35,6 +35,8 @@
 - [ ] Multi-language support beyond English
 - [ ] API for developers to use translation services
 
+## Quick tests
+- [ ] **Test sync action**: Verify that new TODOs are converted into issues.
 ---
 
 ## How to convert these tasks into GitHub Issues
