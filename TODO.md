@@ -37,6 +37,7 @@
 
 ## Quick tests
 - [ ] Verify that new TODOs are converted into issues.
+- [ ] Add new step to verify that new TODOs are converted into issues.
 ---
 
 ## How to convert these tasks into GitHub Issues
