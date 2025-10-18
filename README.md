@@ -1,4 +1,4 @@
-# ABCNatoXYZ — NATO Alphabet Web App
+# ABC NATO.XYZ — NATO Alphabet Web App
 
 
 ABCNatoXYZ is an interactive web application that allows users to explore and translate any text into the NATO phonetic alphabet.  
