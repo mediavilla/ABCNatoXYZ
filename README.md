@@ -1,16 +1,79 @@
-# React + Vite
+# ABCNatoXYZ — NATO Alphabet Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ABCNatoXYZ is an interactive web application that allows users to explore and translate any text into the NATO phonetic alphabet.  
+It displays the full alphabet by default and dynamically updates to show the phonetic representation of any text entered by the user, one word per line.  
+The app is fully responsive, theme‑aware (light/dark/system), and built for smooth, animated interactions.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## React Compiler
+- **Vite + React** — Lightning‑fast frontend build system and component framework.
+- **Tailwind CSS (v3)** — Utility‑first CSS for responsive layout and theming.
+- **next‑themes** — Automatic light/dark/system theme detection and persistence.
+- **Framer Motion** — Smooth page and component animations.
+- **shadcn/ui (planned)** — Polished, accessible UI components built on Tailwind and Radix.
+- **GitHub Pages** — Free static hosting for deployment.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🧰 Local Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/<your-username>/ABCNatoXYZ.git
+   cd ABCNatoXYZ
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Run the dev server**
+   ```bash
+   npm run dev
+   ```
+   The app will be available at `http://localhost:5173`.
+
+4. **Build for production**
+   ```bash
+   npm run build
+   ```
+
+5. **Preview the build**
+   ```bash
+   npm run preview
+   ```
+
+---
+
+## 🌗 Theming
+
+The site automatically follows the user’s system preference (light or dark).  
+A theme toggle in the header lets users manually switch or revert to system mode.
+
+Theming is managed with:
+- `next-themes` for preference handling
+- Tailwind CSS custom properties (`--background`, `--foreground`, etc.)
+
+---
+
+## 🎯 Planned Features
+
+- NATO phonetic grid + dynamic translation
+- Character and word‑level animation using Framer Motion
+- Copy‑to‑clipboard functionality for results
+- Additional color themes and accessibility options
+- Progressive enhancement for offline use (PWA)
+
+---
+
+## 🧑‍💻 Author
+
+**Juan Mediavilla**  
+Project: [ABCNatoXYZ](https://github.com/<your-username>/ABCNatoXYZ)
+
+---
+
+> Built with ❤️ using Vite, React, and Tailwind.
