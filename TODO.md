@@ -36,7 +36,7 @@
 - [ ] API for developers to use translation services
 
 ## Quick tests
-- [ ] **Test sync action**: Verify that new TODOs are converted into issues.
+- [ ] Verify that new TODOs are converted into issues.
 ---
 
 ## How to convert these tasks into GitHub Issues
