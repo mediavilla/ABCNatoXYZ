@@ -1,8 +1,25 @@
 # ABCNatoXYZ — NATO Alphabet Web App
 
+
 ABCNatoXYZ is an interactive web application that allows users to explore and translate any text into the NATO phonetic alphabet.  
 It displays the full alphabet by default and dynamically updates to show the phonetic representation of any text entered by the user, one word per line.  
 The app is fully responsive, theme‑aware (light/dark/system), and built for smooth, animated interactions.
+
+---
+
+## 🖼️ Preview & Badges
+
+[![Built with Vite](https://img.shields.io/badge/Built%20with-Vite-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![React](https://img.shields.io/badge/React-20232A.svg?logo=react&logoColor=61DAFB)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC.svg?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-EF6C00.svg?logo=framer&logoColor=white)](https://www.framer.com/motion/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+<p align="center">
+  <img src="./public/preview.png" alt="ABCNatoXYZ Preview" width="600"/>
+</p>
+
+_Add a screenshot of the app once the main UI is complete._
 
 ---
 
