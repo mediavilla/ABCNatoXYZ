@@ -1,0 +1,75 @@
+name: Sync TODOs to GitHub Issues
+
+"on":
+  push:
+    paths:
+      - "src/TODO.md"
+  workflow_dispatch: {}  # allow manual runs from the Actions tab
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Parse src/TODO.md and mirror tasks to GitHub Issues
+      - name: Create/close issues from TODO.md
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'src/TODO.md';
+            if (!fs.existsSync(path)) {
+              core.setFailed(`File not found: ${path}`);
+              return;
+            }
+
+            const content = fs.readFileSync(path, 'utf8');
+
+            // Find unchecked and checked task items
+            const unchecked = [...content.matchAll(/^- \[ \] (.+)$/gm)].map(m => m[1].trim());
+            const checked   = [...content.matchAll(/^- \[[xX]\] (.+)$/gm)].map(m => m[1].trim());
+
+            const { owner, repo } = context.repo;
+
+            // Get open issues (first 100; extend if needed)
+            const openIssues = await github.paginate(
+              github.rest.issues.listForRepo,
+              { owner, repo, state: 'open', per_page: 100 }
+            );
+
+            // Create issues for new unchecked items (title = task text)
+            for (const title of unchecked) {
+              const exists = openIssues.find(i => i.title === title);
+              if (!exists) {
+                await github.rest.issues.create({
+                  owner, repo,
+                  title,
+                  body: 'Auto-created from `src/TODO.md`.',
+                  labels: ['backlog']
+                });
+                core.info(`Created issue: ${title}`);
+              } else {
+                core.info(`Issue already exists (open): ${title}`);
+              }
+            }
+
+            // Close matching open issues when item is checked
+            for (const title of checked) {
+              const match = openIssues.find(i => i.title === title);
+              if (match) {
+                await github.rest.issues.update({
+                  owner, repo,
+                  issue_number: match.number,
+                  state: 'closed'
+                });
+                core.info(`Closed issue: ${title}`);
+              }
+            }
+
+      - name: Done
+        run: echo "Sync complete."
