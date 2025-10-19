@@ -16,7 +16,7 @@ The app is fully responsive, theme‑aware (light/dark/system), and built for sm
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 <p align="center">
-  <img src="./public/preview.png" alt="ABCNatoXYZ Preview" width="600"/>
+  <img src="./public/abcnatoxyz-home-screenshot.png" alt="ABCNatoXYZ Preview" width="600"/>
 </p>
 
 _Add a screenshot of the app once the main UI is complete._

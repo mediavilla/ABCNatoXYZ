@@ -71,7 +71,7 @@ const TextInput = ({ value, onChange, onClear }) => {
           <motion.button
             type="button"
             onClick={handleClear}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md hover:bg-accent transition-colors duration-200"
+            className="absolute right-3 top-0 bottom-0 flex items-center justify-center p-1 rounded-md hover:bg-accent transition-colors duration-200"
             aria-label="Clear input"
             variants={clearButtonVariants}
             initial="hidden"
