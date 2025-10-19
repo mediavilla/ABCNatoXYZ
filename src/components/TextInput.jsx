@@ -63,6 +63,8 @@ const TextInput = ({ value, onChange, onClear }) => {
           spellCheck="false"
           variants={inputVariants}
           animate={isFocused ? "focused" : "unfocused"}
+          inputMode="text"
+          autoCapitalize="off"
         />
         
         {value && (

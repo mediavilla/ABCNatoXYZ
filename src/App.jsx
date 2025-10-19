@@ -1,14 +1,87 @@
-import { useState } from 'react';
+import { useMemo, useState, useEffect, useRef } from "react";
+import { translateToNato } from "./lib/translate";
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './components/ThemeToggle';
 import TextInput from './components/TextInput';
 import NatoGrid from './components/NatoGrid';
 import TranslationResult from './components/TranslationResult';
 import CopyButton from './components/CopyButton';
-import { getNatoWord, isAlphabetic } from './data/natoAlphabet';
+import ShareButton from './components/ShareButton';
 
 export default function App() {
   const [inputText, setInputText] = useState('');
+  const isUpdatingFromUrl = useRef(false);
+  const debounceTimeoutRef = useRef(null);
+
+  // Initialize inputText from URL on component mount
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const qParam = urlParams.get('q');
+    
+    if (qParam) {
+      try {
+        const decodedText = decodeURIComponent(qParam);
+        // Limit URL parameter length to prevent issues
+        if (decodedText.length <= 500) {
+          isUpdatingFromUrl.current = true;
+          setInputText(decodedText);
+          isUpdatingFromUrl.current = false;
+        }
+      } catch (error) {
+        console.warn('Invalid URL parameter, ignoring:', error);
+      }
+    }
+  }, []);
+
+  // Update URL when inputText changes (debounced)
+  useEffect(() => {
+    if (isUpdatingFromUrl.current) return;
+
+    // Clear existing timeout
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+
+    // Set new timeout for URL update
+    debounceTimeoutRef.current = setTimeout(() => {
+      const url = new URL(window.location);
+      
+      if (inputText.trim()) {
+        url.searchParams.set('q', encodeURIComponent(inputText));
+      } else {
+        url.searchParams.delete('q');
+      }
+      
+      window.history.pushState({}, '', url.toString());
+    }, 300); // 300ms debounce
+
+    // Cleanup timeout on unmount
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, [inputText]);
+
+  // Handle browser back/forward navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const qParam = urlParams.get('q');
+      
+      isUpdatingFromUrl.current = true;
+      setInputText(qParam ? decodeURIComponent(qParam) : '');
+      isUpdatingFromUrl.current = false;
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  const lines = useMemo(() => translateToNato(inputText), [inputText]);
 
   const handleInputChange = (value) => {
     setInputText(value);
@@ -18,33 +91,23 @@ export default function App() {
     setInputText('');
   };
 
-  // Generate copy-friendly text
-  const generateCopyText = (text) => {
-    if (!text.trim()) return '';
-    
-    const words = text.split(/\s+/).filter(word => word.length > 0);
-    
-    return words.map(word => {
-      const letters = word.split('');
-      const natoTranslations = letters
-        .filter(isAlphabetic)
-        .map(letter => `${letter.toUpperCase()} - ${getNatoWord(letter)}`)
-        .filter(item => item.includes(' - '));
-      
-      return natoTranslations.join(' / ');
-    }).join('\n');
+  // Generate copy-friendly text from translated lines
+  const generateCopyText = (translatedLines) => {
+    if (!translatedLines || translatedLines.length === 0) return '';
+    // Each inner array already contains segments like "H – Hotel"
+    return translatedLines.map(parts => parts.join(' / ')).join('\n');
   };
 
-  const copyText = generateCopyText(inputText);
-  const hasInput = inputText.trim().length > 0;
+  const copyText = generateCopyText(lines);
+  const hasInput = lines.length > 0;
 
   const pageVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.5,
-        ease: "easeOut"
+        duration: 0.3,
+        ease: "easeInOut"
       }
     }
   };
@@ -63,7 +126,7 @@ export default function App() {
 
   return (
     <motion.div 
-      className="min-h-dvh flex flex-col"
+      className="min-h-dvh flex flex-col transition-colors duration-300 ease-in-out"
       variants={pageVariants}
       initial="hidden"
       animate="visible"
@@ -73,18 +136,14 @@ export default function App() {
         <ThemeToggle />
       </header>
 
-      <main className="flex-1 p-4 flex flex-col items-center justify-center space-y-8">
+      <main className="flex-1 p-4 flex flex-col items-center justify-center space-y-8 bg-main">
         <motion.div 
           className="w-full flex flex-col items-center space-y-6"
           variants={contentVariants}
         >
           <div className="text-center space-y-2">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">
-              NATO Phonetic Alphabet Translator
-            </h2>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl">
+            <p className="text-sm sm:text-base max-w-2xl">
               Type any text to instantly see its NATO phonetic alphabet equivalent. 
-              Perfect for learning, communication, and reference.
             </p>
           </div>
 
@@ -106,10 +165,13 @@ export default function App() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
               >
-                <TranslationResult inputText={inputText} />
-                {copyText && (
-                  <CopyButton textToCopy={copyText} />
-                )}
+                <TranslationResult lines={lines} />
+                <div className="flex flex-col sm:flex-row gap-3 items-center">
+                  {copyText && (
+                    <CopyButton textToCopy={copyText} />
+                  )}
+                  <ShareButton />
+                </div>
               </motion.div>
             ) : (
               <motion.div
