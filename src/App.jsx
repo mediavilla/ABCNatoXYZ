@@ -7,11 +7,24 @@ import NatoGrid from './components/NatoGrid';
 import TranslationResult from './components/TranslationResult';
 import CopyButton from './components/CopyButton';
 import ShareButton from './components/ShareButton';
+import { useFavicon } from './hooks/useFavicon';
+import { usePageVisibility } from './hooks/usePageVisibility';
 
 export default function App() {
   const [inputText, setInputText] = useState('');
   const isUpdatingFromUrl = useRef(false);
   const debounceTimeoutRef = useRef(null);
+  
+  // Track page visibility and last alphabetic character for favicon
+  const isPageVisible = usePageVisibility();
+  const lastAlphabeticChar = useMemo(() => {
+    // Find the last alphabetic character in the input
+    const matches = inputText.match(/[A-Za-z]/g);
+    return matches ? matches[matches.length - 1].toUpperCase() : null;
+  }, [inputText]);
+  
+  // Update favicon based on visibility and last character
+  useFavicon(isPageVisible && lastAlphabeticChar ? lastAlphabeticChar : 'A');
 
   // Initialize inputText from URL on component mount
   useEffect(() => {
