@@ -203,7 +203,8 @@ export default function App() {
       </main>
 
       <footer className="px-4 py-3 border-t text-xs text-muted-foreground bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        © {new Date().getFullYear()} ABCNATO.XYZ
+        <p>© {new Date().getFullYear()} ABCNATO.XYZ All rights reserved.</p>
+        <p>Certain assets (NATO alphabet, flags, and fonts) are public domain or freely licensed.</p>
       </footer>
     </motion.div>
   )
