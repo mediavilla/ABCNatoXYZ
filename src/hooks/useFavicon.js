@@ -18,10 +18,10 @@ export const useFavicon = (letter) => {
       
       if (letterToShow && /^[A-Za-z]$/.test(letterToShow)) {
         // Use the flag for the specified letter
-        link.href = `/ABCNatoXYZ/flags/${letterToShow.toLowerCase()}.svg`;
+        link.href = `/flags/${letterToShow.toLowerCase()}.svg`;
       } else {
         // Use default Alpha flag
-        link.href = '/ABCNatoXYZ/flags/a.svg';
+        link.href = '/flags/a.svg';
       }
       
       document.head.appendChild(link);
