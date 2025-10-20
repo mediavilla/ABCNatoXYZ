@@ -164,11 +164,6 @@ export default function App() {
           className="w-full flex flex-col items-center space-y-6"
           variants={contentVariants}
         >
-          <div className="text-center space-y-2">
-            <p className="text-sm sm:text-base max-w-2xl">
-              Type any text to instantly see its NATO phonetic alphabet equivalent. 
-            </p>
-          </div>
 
           <TextInput 
             value={inputText}
