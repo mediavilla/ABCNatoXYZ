@@ -45,3 +45,70 @@
   html { @apply bg-background text-foreground; }
   * { @apply border-border; }
 }
+
+/* Container queries for NATO cards responsive layout */
+@layer components {
+  .nato-cards-container {
+    /* Ensure cards have enough space for longer words like "November" */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+  
+  /* Container query: when container is narrow, use fewer columns with larger minimum width */
+  @container (max-width: 450px) {
+    .nato-cards-container {
+      grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+    }
+  }
+  
+  @container (max-width: 400px) {
+    .nato-cards-container {
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    }
+  }
+  
+  @container (max-width: 350px) {
+    .nato-cards-container {
+      grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+    }
+  }
+  
+  @container (max-width: 300px) {
+    .nato-cards-container {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+  }
+  
+  @container (max-width: 250px) {
+    .nato-cards-container {
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    }
+  }
+  
+  @container (max-width: 200px) {
+    .nato-cards-container {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+  }
+  
+  /* Pure CSS dynamic font sizing for NATO cards */
+  .nato-card-text {
+    white-space: nowrap;
+    line-height: 1.2;
+    /* Use clamp() for responsive font sizing based on container width */
+    font-size: clamp(0.6rem, 4cqw, 1rem);
+    transition: font-size 0.2s ease;
+  }
+  
+  /* Additional container query adjustments for very narrow containers */
+  @container (max-width: 200px) {
+    .nato-card-text {
+      font-size: clamp(0.5rem, 5cqw, 0.8rem);
+    }
+  }
+  
+  @container (max-width: 150px) {
+    .nato-card-text {
+      font-size: clamp(0.45rem, 6cqw, 0.7rem);
+    }
+  }
+}

@@ -111,9 +111,9 @@ const TranslationResult = ({ lines }) => {
               {wordData.chunks.map((chunk, chunkIndex) => (
                 <div 
                   key={`chunk-${wordIndex}-${chunkIndex}`}
-                  className="grid gap-2 sm:gap-3"
+                  className="grid gap-2 sm:gap-3 nato-cards-container"
                   style={{
-                    gridTemplateColumns: `repeat(auto-fit, minmax(60px, 1fr))`,
+                    gridTemplateColumns: `repeat(auto-fit, minmax(100px, 1fr))`,
                     maxWidth: '100%',
                     containerType: 'inline-size'
                   }}
@@ -136,7 +136,7 @@ const TranslationResult = ({ lines }) => {
                       <div className="text-lg sm:text-xl font-bold text-foreground mb-1">
                         {item.letter}
                       </div>
-                      <div className="text-sm sm:text-base text-muted-foreground">
+                      <div className="text-sm sm:text-base text-muted-foreground nato-card-text">
                         {item.nato}
                       </div>
                     </motion.div>
