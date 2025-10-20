@@ -97,16 +97,6 @@ const TextInput = ({ value, onChange, onClear, onFlagsToggle, onMorseToggle }) =
         )}
       </div>
       
-      <motion.p
-        id="input-help"
-        className="mt-2 text-sm text-muted-foreground text-center"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-      >
-        Press space to separate words. Only letters will be translated.
-      </motion.p>
-      
       <motion.div
         className="mt-4 flex items-center justify-center gap-4"
         initial={{ opacity: 0, y: -10 }}
