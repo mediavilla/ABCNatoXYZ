@@ -22,7 +22,7 @@ const MorseRenderer = ({ char, showMorse }) => {
       {morseCode.split('').map((symbol, index) => (
         <span
           key={index}
-          className="bg-foreground inline-block"
+          className="bg-muted-foreground inline-block"
           style={{
             width: symbol === '.' ? '6px' : '18px',
             height: '6px',
