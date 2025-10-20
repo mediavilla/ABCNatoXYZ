@@ -12,6 +12,8 @@ import { usePageVisibility } from './hooks/usePageVisibility';
 
 export default function App() {
   const [inputText, setInputText] = useState('');
+  const [showFlags, setShowFlags] = useState(false);
+  const [showMorse, setShowMorse] = useState(false);
   const isUpdatingFromUrl = useRef(false);
   const debounceTimeoutRef = useRef(null);
   
@@ -104,6 +106,14 @@ export default function App() {
     setInputText('');
   };
 
+  const handleFlagsToggle = (checked) => {
+    setShowFlags(checked);
+  };
+
+  const handleMorseToggle = (checked) => {
+    setShowMorse(checked);
+  };
+
   // Generate copy-friendly text from translated lines
   const generateCopyText = (translatedLines) => {
     if (!translatedLines || translatedLines.length === 0) return '';
@@ -164,6 +174,8 @@ export default function App() {
             value={inputText}
             onChange={handleInputChange}
             onClear={handleClearInput}
+            onFlagsToggle={handleFlagsToggle}
+            onMorseToggle={handleMorseToggle}
           />
         </motion.div>
 
@@ -178,7 +190,7 @@ export default function App() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
               >
-                <TranslationResult lines={lines} />
+                <TranslationResult lines={lines} showFlags={showFlags} showMorse={showMorse} />
                 <div className="flex flex-col sm:flex-row gap-3 items-center">
                   {copyText && (
                     <CopyButton textToCopy={copyText} />
@@ -195,7 +207,7 @@ export default function App() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
               >
-                <NatoGrid />
+                <NatoGrid showFlags={showFlags} showMorse={showMorse} />
               </motion.div>
             )}
           </AnimatePresence>

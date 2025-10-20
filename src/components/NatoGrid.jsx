@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { NATO_ALPHABET } from '../data/natoAlphabet';
+import MorseRenderer from './MorseRenderer';
 
-const NatoGrid = () => {
+const NatoGrid = ({ showFlags, showMorse }) => {
   const letters = Object.entries(NATO_ALPHABET);
 
   const containerVariants = {
@@ -50,7 +51,7 @@ const NatoGrid = () => {
         {letters.map(([letter, word]) => (
           <motion.div
             key={letter}
-            className="bg-card border rounded-lg p-3 sm:p-4 text-center hover:bg-accent transition-colors duration-200"
+            className="bg-card border rounded-md p-3 sm:p-4 hover:bg-accent transition-colors duration-200"
             variants={itemVariants}
             whileHover={{ 
               scale: 1.05,
@@ -61,11 +62,38 @@ const NatoGrid = () => {
             aria-label={`${letter} for ${word}`}
             tabIndex={0}
           >
-            <div className="text-lg sm:text-xl font-bold text-foreground mb-1">
-              {letter}
-            </div>
-            <div className="text-sm sm:text-base text-muted-foreground">
-              {word}
+            <div className="grid grid-rows-3 h-full">
+              {/* Top row with 3 columns */}
+              <div className="grid grid-cols-3 items-center">
+                {/* Letter - top left */}
+                <div className="text-lg sm:text-xl text-foreground font-normal">
+                  {letter}
+                </div>
+                {/* Empty middle column */}
+                <div></div>
+                {/* Flag - top right */}
+                <div className="flex justify-end">
+                  {showFlags && (
+                    <img
+                      src={`/flags/${letter.toLowerCase()}.svg`}
+                      alt={`${letter} flag`}
+                      className="w-6 h-4 sm:w-8 sm:h-5"
+                    />
+                  )}
+                </div>
+              </div>
+              
+              {/* Middle row - codeword */}
+              <div className="flex items-center justify-center">
+                <div className="text-sm sm:text-base text-muted-foreground font-bold">
+                  {word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()}
+                </div>
+              </div>
+              
+              {/* Bottom row - morse code */}
+              <div className="flex items-center justify-center">
+                <MorseRenderer char={letter} showMorse={showMorse} />
+              </div>
             </div>
           </motion.div>
         ))}

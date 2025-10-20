@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
-const TextInput = ({ value, onChange, onClear }) => {
+const TextInput = ({ value, onChange, onClear, onFlagsToggle, onMorseToggle }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleClear = () => {
@@ -106,6 +106,30 @@ const TextInput = ({ value, onChange, onClear }) => {
       >
         Press space to separate words. Only letters will be translated.
       </motion.p>
+      
+      <motion.div
+        className="mt-4 flex items-center justify-center gap-4"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+      >
+        <label className="flex items-center space-x-2 cursor-pointer">
+          <input
+            type="checkbox"
+            onChange={(e) => onFlagsToggle(e.target.checked)}
+            className="w-4 h-4 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
+          />
+          <span className="text-sm text-muted-foreground">flags</span>
+        </label>
+        <label className="flex items-center space-x-2 cursor-pointer">
+          <input
+            type="checkbox"
+            onChange={(e) => onMorseToggle(e.target.checked)}
+            className="w-4 h-4 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
+          />
+          <span className="text-sm text-muted-foreground">morse</span>
+        </label>
+      </motion.div>
     </div>
   );
 };
