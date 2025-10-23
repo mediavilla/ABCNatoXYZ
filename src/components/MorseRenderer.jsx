@@ -1,13 +1,14 @@
+import { memo } from 'react';
 import { getMorseCode } from '../data/natoAlphabet';
 
-const MorseRenderer = ({ char, showMorse }) => {
+const MorseRenderer = ({ char, showMorse, isActive = false, activeSymbolIndex = -1 }) => {
   if (!showMorse) return null;
   
   const morseCode = getMorseCode(char);
   if (!morseCode) return null;
   
   // Create accessible description
-  const morseDescription = morseCode
+  const morseDescription = morseCode 
     .replace(/\./g, 'dot ')
     .replace(/-/g, 'dash ')
     .trim();
@@ -22,11 +23,19 @@ const MorseRenderer = ({ char, showMorse }) => {
       {morseCode.split('').map((symbol, index) => (
         <span
           key={index}
-          className="bg-muted-foreground inline-block"
+          aria-hidden="true"
+          data-symbol-idx={index}
+          data-active={(isActive && index === activeSymbolIndex) ? 'true' : 'false'}
+          className={`inline-block ${
+            index === activeSymbolIndex && isActive 
+              ? 'bg-primary' 
+              : 'bg-muted-foreground'
+          }`}
           style={{
             width: symbol === '.' ? '6px' : '18px',
             height: '6px',
-            borderRadius: symbol === '.' ? '50%' : '3px'
+            borderRadius: symbol === '.' ? '50%' : '3px',
+            transition: 'background-color 120ms ease'
           }}
         />
       ))}
@@ -34,4 +43,4 @@ const MorseRenderer = ({ char, showMorse }) => {
   );
 };
 
-export default MorseRenderer;
+export default memo(MorseRenderer);
