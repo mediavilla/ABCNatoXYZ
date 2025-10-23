@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
-const TextInput = ({ value, onChange, onClear, onFlagsToggle, onMorseToggle }) => {
+const TextInput = ({ value, onChange, onClear, onFlagsToggle, onMorseToggle, onAutoPlayToggle, showMorse }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleClear = () => {
@@ -118,6 +118,15 @@ const TextInput = ({ value, onChange, onClear, onFlagsToggle, onMorseToggle }) =
             className="w-4 h-4 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
           />
           <span className="text-sm text-muted-foreground">morse</span>
+        </label>
+        <label className="flex items-center space-x-2 cursor-pointer">
+          <input
+            type="checkbox"
+            onChange={(e) => onAutoPlayToggle(e.target.checked)}
+            disabled={!showMorse}
+            className="w-4 h-4 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          />
+          <span className="text-sm text-muted-foreground">auto-play</span>
         </label>
       </motion.div>
     </div>
