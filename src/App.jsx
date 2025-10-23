@@ -7,15 +7,20 @@ import NatoGrid from './components/NatoGrid';
 import TranslationResult from './components/TranslationResult';
 import CopyButton from './components/CopyButton';
 import ShareButton from './components/ShareButton';
+import MorseControls from './components/MorseControls';
 import { useFavicon } from './hooks/useFavicon';
 import { usePageVisibility } from './hooks/usePageVisibility';
+import { useMorsePlayer } from './hooks/useMorsePlayer';
 
 export default function App() {
   const [inputText, setInputText] = useState('');
   const [showFlags, setShowFlags] = useState(false);
   const [showMorse, setShowMorse] = useState(false);
+  const [autoPlayEnabled, setAutoPlayEnabled] = useState(false);
   const isUpdatingFromUrl = useRef(false);
   const debounceTimeoutRef = useRef(null);
+  const prevInputTextRef = useRef('');
+  const currentGlobalLetterIndexRef = useRef(0); // Track current global letter position
   
   // Track page visibility and last alphabetic character for favicon
   const isPageVisible = usePageVisibility();
@@ -104,6 +109,9 @@ export default function App() {
 
   const handleClearInput = () => {
     setInputText('');
+    morsePlayer.stop();
+    autoPlayMorse.stop();
+    currentGlobalLetterIndexRef.current = 0;
   };
 
   const handleFlagsToggle = (checked) => {
@@ -112,7 +120,46 @@ export default function App() {
 
   const handleMorseToggle = (checked) => {
     setShowMorse(checked);
+    if (!checked) {
+      setAutoPlayEnabled(false);
+    }
   };
+
+  const handleAutoPlayToggle = (checked) => {
+    setAutoPlayEnabled(checked);
+  };
+
+  // Morse player hooks
+  const morsePlayer = useMorsePlayer({ wpm: 20, mode: 'replace' });
+  const autoPlayMorse = useMorsePlayer({ wpm: 20, mode: 'append' });
+
+  // Auto-play effect: detect character additions and play morse
+  useEffect(() => {
+    if (!autoPlayEnabled || !showMorse) return;
+    
+    const prev = prevInputTextRef.current;
+    const curr = inputText;
+    
+    // Detect if a character was added (not removed)
+    if (curr.length > prev.length && curr.startsWith(prev)) {
+      const newChar = curr[prev.length];
+      // Only play if it's a valid morse character
+      if (/[A-Za-z0-9]/.test(newChar)) {
+        // Update global letter index for the new character
+        currentGlobalLetterIndexRef.current = prev.length;
+        autoPlayMorse.play(newChar);
+      }
+    }
+    
+    prevInputTextRef.current = curr;
+  }, [inputText, autoPlayEnabled, showMorse, autoPlayMorse]);
+
+  // Memoize static props to prevent unnecessary re-renders
+  const staticProps = useMemo(() => ({
+    lines,
+    showFlags,
+    showMorse
+  }), [lines, showFlags, showMorse]);
 
   // Generate copy-friendly text from translated lines
   const generateCopyText = (translatedLines) => {
@@ -171,6 +218,8 @@ export default function App() {
             onClear={handleClearInput}
             onFlagsToggle={handleFlagsToggle}
             onMorseToggle={handleMorseToggle}
+            onAutoPlayToggle={handleAutoPlayToggle}
+            showMorse={showMorse}
           />
         </motion.div>
 
@@ -185,12 +234,25 @@ export default function App() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
               >
-                <TranslationResult lines={lines} showFlags={showFlags} showMorse={showMorse} />
+                <TranslationResult 
+                  {...staticProps}
+                  currentLetterIndex={morsePlayer.isPlaying ? morsePlayer.currentLetterIndex : (autoPlayEnabled ? currentGlobalLetterIndexRef.current : morsePlayer.currentLetterIndex)}
+                  currentSymbolIndex={morsePlayer.isPlaying ? morsePlayer.currentSymbolIndex : (autoPlayEnabled ? autoPlayMorse.currentSymbolIndex : morsePlayer.currentSymbolIndex)}
+                />
                 <div className="flex flex-col sm:flex-row gap-3 items-center">
                   {copyText && (
                     <CopyButton textToCopy={copyText} />
                   )}
                   <ShareButton />
+                  <MorseControls
+                    isPlaying={morsePlayer.isPlaying}
+                    onPlay={() => {
+                      autoPlayMorse.stop();
+                      morsePlayer.play(inputText);
+                    }}
+                    onStop={morsePlayer.stop}
+                    disabled={!hasInput || !showMorse}
+                  />
                 </div>
               </motion.div>
             ) : (
