@@ -76,7 +76,7 @@ const NatoGrid = ({ showFlags, showMorse }) => {
                   {showFlags && (
                     <img
                       src={`/flags/${letter.toLowerCase()}.svg`}
-                      alt={`${letter} flag`}
+                      alt={`${word} flag – NATO phonetic alphabet letter ${letter}`}
                       className="w-6 h-4 sm:w-8 sm:h-5"
                     />
                   )}

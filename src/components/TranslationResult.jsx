@@ -124,7 +124,7 @@ const TranslationResult = ({ lines, showFlags, showMorse, currentLetterIndex, cu
                                 {showFlags && (
                                   <img
                                     src={`/flags/${item.letter.toLowerCase()}.svg`}
-                                    alt={`${item.letter} flag`}
+                                    alt={`${item.nato.charAt(0).toUpperCase() + item.nato.slice(1).toLowerCase()} flag – NATO phonetic alphabet letter ${item.letter}`}
                                     className="w-6 h-4 sm:w-8 sm:h-5"
                                     loading="lazy"
                                     decoding="async"
