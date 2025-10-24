@@ -1,7 +1,46 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { VolumeX, Volume2 } from 'lucide-react';
 
-const TextInput = ({ value, onChange, onClear, onFlagsToggle, onMorseToggle, onAutoPlayToggle, showMorse }) => {
+// Custom toggle switch component
+const ToggleSwitch = ({ enabled, onToggle, disabled }) => {
+  return (
+    <motion.button
+      type="button"
+      onClick={onToggle}
+      disabled={disabled}
+      className={`relative inline-flex h-6 w-11 items-center rounded-full border border-border transition-colors duration-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background ${
+        enabled 
+          ? 'bg-primary' 
+          : 'bg-muted'
+      } ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+      aria-label={enabled ? "Disable auto-play" : "Enable auto-play"}
+      whileHover={!disabled ? { scale: 1.02 } : {}}
+      whileTap={!disabled ? { scale: 0.98 } : {}}
+    >
+      <motion.span
+        className={`inline-flex h-5 w-5 transform rounded-full bg-background shadow-lg items-center justify-center pointer-events-none`}
+        animate={{
+          x: enabled ? 20 : 2
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 800,
+          damping: 25,
+          duration: 0.15
+        }}
+      >
+        {enabled ? (
+          <Volume2 className="h-3 w-3 text-primary" />
+        ) : (
+          <VolumeX className="h-3 w-3 text-muted-foreground" />
+        )}
+      </motion.span>
+    </motion.button>
+  );
+};
+
+const TextInput = ({ value, onChange, onClear, onFlagsToggle, onMorseToggle, onAutoPlayToggle, showMorse, autoPlayEnabled }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleClear = () => {
@@ -119,15 +158,16 @@ const TextInput = ({ value, onChange, onClear, onFlagsToggle, onMorseToggle, onA
           />
           <span className="text-sm text-muted-foreground">morse</span>
         </label>
-        <label className="flex items-center space-x-2 cursor-pointer">
-          <input
-            type="checkbox"
-            onChange={(e) => onAutoPlayToggle(e.target.checked)}
-            disabled={!showMorse}
-            className="w-4 h-4 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          />
-          <span className="text-sm text-muted-foreground">auto-play</span>
-        </label>
+        {showMorse && (
+          <label className="flex items-center space-x-2 cursor-pointer">
+            <ToggleSwitch
+              enabled={autoPlayEnabled}
+              onToggle={() => onAutoPlayToggle(!autoPlayEnabled)}
+              disabled={false}
+            />
+            <span className="text-sm text-muted-foreground">auto-play</span>
+          </label>
+        )}
       </motion.div>
     </div>
   );
