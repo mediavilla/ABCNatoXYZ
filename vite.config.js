@@ -1,78 +1,51 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-// https://vite.dev/config/
-import Sitemap from 'vite-plugin-sitemap'
+import sitemap from 'vite-sitemap'
 import fs from 'fs'
 import path from 'path'
 
+// Auto-discover routes from src/pages (React Router SPA)
 function getRoutesFromPages() {
-  const pagesDir = path.resolve(__dirname, 'src/pages');
-  const routes = new Set();
+  const pagesDir = path.resolve(__dirname, 'src/pages')
+  const routes = new Set()
 
   function walk(dir) {
-    if (!fs.existsSync(dir)) return;
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    if (!fs.existsSync(dir)) return
+    const entries = fs.readdirSync(dir, { withFileTypes: true })
     for (const ent of entries) {
-      const full = path.join(dir, ent.name);
-      if (ent.isDirectory()) {
-        walk(full);
-        continue;
-      }
-      // Only include React page files
-      if (!/\.(jsx|tsx)$/.test(ent.name)) continue;
+      const full = path.join(dir, ent.name)
+      if (ent.isDirectory()) { walk(full); continue }
+      if (!/\.(jsx|tsx)$/.test(ent.name)) continue
+      if (ent.name.startsWith('_')) continue
 
-      // Skip files that are intended to be private/utility
-      if (ent.name.startsWith('_')) continue;
-
-      // Compute a route from the relative path
-      const rel = path.relative(pagesDir, full).split(path.sep).join('/');
-      const noExt = rel.replace(/\.(jsx|tsx)$/,'');
-
-      // Handle index files and nested directories
-      let route;
-      if (/\/index$/.test(noExt)) {
-        const dir = noExt.replace(/\/index$/, '');
-        route = '/' + dir; // '' -> '/'
-      } else {
-        route = '/' + noExt;
-      }
-
-      // Normalize and skip dynamic routes like [slug] or :id
-      if (/[\[\]:]/.test(route)) continue;
-
-      // Collapse multiple slashes and remove trailing slash (except root)
-      route = route.replace(/\/+/, '/');
-      if (route.length > 1 && route.endsWith('/')) route = route.slice(0, -1);
-
-      routes.add(route);
+      const rel = path.relative(pagesDir, full).split(path.sep).join('/')
+      const noExt = rel.replace(/\.(jsx|tsx)$/,'')
+      let route = /\/index$/.test(noExt) ? '/' + noExt.replace(/\/index$/, '') : '/' + noExt
+      if (/^[\s]*$/.test(route) || /[\[\]:]/.test(route)) continue
+      route = route.replace(/\/+/, '/')
+      if (route.length > 1 && route.endsWith('/')) route = route.slice(0, -1)
+      routes.add(route)
     }
   }
 
-  walk(pagesDir);
-
-  // Ensure root is present if there is an index page
-  if (!routes.size) return ['/'];
-  return Array.from(routes).sort((a, b) => a.localeCompare(b));
+  walk(pagesDir)
+  return routes.size ? Array.from(routes).sort() : ['/']
 }
 
 export default defineConfig({
   plugins: [
     react(),
-    Sitemap({
-      // Use your live site URL so <loc> has absolute URLs
-      hostname: process.env.VITE_SITE_URL || 'https://abcnato.xyz',
-      // Optional quality-of-life flags
-      generateRobotsTxt: true,
-      readable: true,
-      // Update this list with the routes you want included
-      routes: getRoutesFromPages(),
-      // Paths you **don’t** want in the sitemap
-      exclude: [
-        '/api/*'
-      ],
-      // Hints for crawlers (not all engines use these, but good practice)
+    sitemap({
+      base: process.env.VITE_SITE_URL || 'https://abcnato.xyz',
+      // vite-sitemap expects paths without a leading slash
+      urls: getRoutesFromPages().map(p => p.replace(/^\//, '')),
       changefreq: 'weekly',
-      priority: 0.7
+      // Also emit robots.txt at the site root
+      robotsTxt: [
+        'User-agent: *',
+        'Allow: /',
+        `Sitemap: ${(process.env.VITE_SITE_URL || 'https://abcnato.xyz')}/sitemap.xml`
+      ].join('\n')
     })
   ],
   base: process.env.VITE_BASE_PATH || '/',
