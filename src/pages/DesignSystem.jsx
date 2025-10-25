@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { Copy, Home, Sun, Moon, Check, VolumeX, Volume2 } from 'lucide-react';
-import ThemeToggle from '../components/ThemeToggle';
+import Header from '../components/Header';
+import Breadcrumb from '../components/Breadcrumb';
+import Footer from '../components/Footer';
 import CopyButton from '../components/CopyButton';
 import ShareButton from '../components/ShareButton';
 
@@ -195,19 +197,8 @@ export default function DesignSystem() {
       initial="hidden"
       animate="visible"
     >
-      <header className="flex items-center justify-between px-4 py-3 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex items-center gap-4">
-          <motion.a
-            href="/"
-            className="flex items-center gap-2 text-lg font-semibold hover:text-primary transition-colors"
-            whileHover={{ scale: 1.02 }}
-          >
-            <Home className="w-5 h-5" />
-            Design System
-          </motion.a>
-        </div>
-        <ThemeToggle />
-      </header>
+      <Header title="Design System" />
+      <Breadcrumb />
 
       <main className="flex-1 p-6 bg-main">
         <div className="max-w-6xl mx-auto space-y-12">
@@ -573,7 +564,7 @@ export default function DesignSystem() {
               </div>
               <div>
                 <div className="text-sm text-muted-foreground mb-2">Theme Toggle</div>
-                <ThemeToggle />
+                <div className="text-sm text-muted-foreground">Available in header</div>
               </div>
             </div>
           </motion.section>
@@ -581,10 +572,7 @@ export default function DesignSystem() {
         </div>
       </main>
 
-      <footer className="px-4 py-3 border-t text-xs text-muted-foreground bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <p>© {new Date().getFullYear()} ABCNATO.XYZ Design System</p>
-        <p>Accessible via direct URL only - no navigation links</p>
-      </footer>
+      <Footer />
     </motion.div>
   );
 }

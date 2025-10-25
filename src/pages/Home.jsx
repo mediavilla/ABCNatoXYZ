@@ -1,13 +1,15 @@
 import { useMemo, useState, useEffect, useRef } from "react";
 import { translateToNato } from "../lib/translate";
 import { motion, AnimatePresence } from 'framer-motion';
-import ThemeToggle from '../components/ThemeToggle';
+import Header from '../components/Header';
+import Breadcrumb from '../components/Breadcrumb';
 import TextInput from '../components/TextInput';
 import NatoGrid from '../components/NatoGrid';
 import TranslationResult from '../components/TranslationResult';
 import CopyButton from '../components/CopyButton';
 import ShareButton from '../components/ShareButton';
 import MorseControls from '../components/MorseControls';
+import Footer from '../components/Footer';
 import { useFavicon } from '../hooks/useFavicon';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { useMorsePlayer } from '../hooks/useMorsePlayer';
@@ -201,10 +203,8 @@ export default function Home() {
       initial="hidden"
       animate="visible"
     >
-      <header className="flex items-center justify-between px-4 py-3 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <h1 className="text-lg font-semibold">NATO Alphabet</h1>
-        <ThemeToggle />
-      </header>
+      <Header title="NATO Alphabet" />
+      <Breadcrumb />
 
       <main className="flex-1 p-4 flex flex-col items-center justify-center space-y-8 bg-main">
         <motion.div 
@@ -272,10 +272,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="px-4 py-3 border-t text-xs text-muted-foreground bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <p>© {new Date().getFullYear()} ABCNATO.XYZ All rights reserved.</p>
-        <p>Certain assets (NATO alphabet, flags, and fonts) are public domain or freely licensed.</p>
-      </footer>
+      <Footer />
     </motion.div>
   )
 }
