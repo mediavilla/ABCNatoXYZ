@@ -12,9 +12,47 @@ import ShareButton from '../components/ShareButton';
 const ColorSwatch = ({ name, value, description }) => {
   const [copied, setCopied] = useState(false);
 
+  // Convert HSL to HEX
+  const hslToHex = (hsl) => {
+    // Parse HSL string like "222.2 84% 4.9%" into [h, s, l]
+    const values = hsl.match(/[\d.]+/g).map(Number);
+    const [h, s, l] = values;
+    
+    const sNorm = s / 100;
+    const lNorm = l / 100;
+    
+    const c = (1 - Math.abs(2 * lNorm - 1)) * sNorm;
+    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+    const m = lNorm - c / 2;
+    
+    let r, g, b;
+    if (h >= 0 && h < 60) {
+      r = c; g = x; b = 0;
+    } else if (h >= 60 && h < 120) {
+      r = x; g = c; b = 0;
+    } else if (h >= 120 && h < 180) {
+      r = 0; g = c; b = x;
+    } else if (h >= 180 && h < 240) {
+      r = 0; g = x; b = c;
+    } else if (h >= 240 && h < 300) {
+      r = x; g = 0; b = c;
+    } else {
+      r = c; g = 0; b = x;
+    }
+    
+    const toHex = (n) => {
+      const hex = Math.round((n + m) * 255).toString(16);
+      return hex.length === 1 ? '0' + hex : hex;
+    };
+    
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  };
+
+  const hexValue = hslToHex(value);
+
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(value);
+      await navigator.clipboard.writeText(hexValue);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -32,12 +70,14 @@ const ColorSwatch = ({ name, value, description }) => {
         <div className="font-medium text-sm">{name}</div>
         <div className="text-xs text-muted-foreground">{description}</div>
         <div className="text-xs font-mono text-muted-foreground mt-1">{value}</div>
+        <div className="text-xs font-mono text-muted-foreground">{hexValue}</div>
       </div>
       <motion.button
         onClick={handleCopy}
         className="p-2 rounded-md hover:bg-muted transition-colors"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        title={`Copy ${hexValue}`}
       >
         {copied ? (
           <Check className="w-4 h-4 text-green-600" />

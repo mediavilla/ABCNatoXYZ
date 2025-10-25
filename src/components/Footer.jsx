@@ -1,8 +1,14 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useTheme } from 'next-themes';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { theme, resolvedTheme } = useTheme();
+  
+  // Determine the current theme (handle system theme)
+  const currentTheme = theme === 'system' ? resolvedTheme : theme;
+  const isDark = currentTheme === 'dark';
 
   const footerVariants = {
     hidden: { opacity: 0 },
@@ -113,17 +119,18 @@ export default function Footer() {
 
           {/* Column 4: Personal Branding */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Created by</h3>
             <div className="space-y-2">
-              <a 
+            <a 
                 href="https://mediavilla.design" 
                 className="hover:text-primary transition-colors duration-200 font-medium"
-              >
-                MediaVilla Design
+              >                
+              <img 
+                src={isDark ? "/mediavilla-logo-dark.svg" : "/mediavilla-logo-light.svg"} 
+                alt="Juan Mediavilla Logo" 
+                className="w-10 h-10" 
+              />
+              
               </a>
-              <p className="text-xs text-muted-foreground">
-                Professional design and development services
-              </p>
             </div>
           </div>
         </div>
