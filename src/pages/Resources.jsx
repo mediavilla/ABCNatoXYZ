@@ -61,22 +61,35 @@ export default function Resources() {
                   <div className="bg-card border border-border rounded-lg p-4">
                     <h3 className="font-semibold mb-2">NATO phonetic alphabet, codes and signals</h3>
                     <p className="text-sm text-muted-foreground mb-2">
-                      Phonetic alphabet, International Morse Code, Flaghoist communication, Semaphore and Panel signalling.
+                      Article on the NATO website about the NATO phonetic alphabet, codes and signals.
                     </p>
                     <a href="https://www.nato.int/cps/en/natohq/news_150391.htm" className="text-primary hover:underline">Article on the NATO website</a>
                   </div>
+
+                  <div className="bg-card border border-border rounded-lg p-4">
+                    <h3 className="font-semibold mb-2">NATO .JPG image with codes and signals</h3>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Phonetic alphabet, International Morse Code, Flaghoist communication, Semaphore and Panel signalling.
+                    </p>
+                    <a href="https://www.nato.int/nato_static_fl2014/assets/pictures/stock_2018/20180110_alphabet-sign-signal-big2.jpg" className="text-primary hover:underline">JPG Image on the NATO website</a>
+                  </div>
                 </div>
+
+
+
+                
+
               </section>
 
               <section className="mb-8">
                 <h2 className="text-2xl font-semibold mb-4">Learning Resources</h2>
                 <div className="space-y-4">
                   <div className="bg-card border border-border rounded-lg p-4">
-                    <h3 className="font-semibold mb-2">Aviation Training Materials</h3>
+                    <h3 className="font-semibold mb-2">NATO phonetic alphabet Wikipedia page</h3>
                     <p className="text-sm text-muted-foreground mb-2">
-                      Professional training resources for aviation communication
+                    International adoption, Usage, Pronunciation, History and Variants.
                     </p>
-                    <a href="#" className="text-primary hover:underline">Training Resources</a>
+                    <a href="https://en.wikipedia.org/wiki/NATO_phonetic_alphabet" className="text-primary hover:underline">Wikipedia</a>
                   </div>
                   <div className="bg-card border border-border rounded-lg p-4">
                     <h3 className="font-semibold mb-2">Military Communication Guides</h3>
