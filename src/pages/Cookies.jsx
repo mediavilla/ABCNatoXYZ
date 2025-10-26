@@ -34,7 +34,7 @@ export default function Cookies() {
       initial="hidden"
       animate="visible"
     >
-      <Header title="Cookie Policy" />
+      <Header title="NATO Alphabet" linkToHome={true} />
       <Breadcrumb />
       
       <main className="flex-1 p-6 bg-main">

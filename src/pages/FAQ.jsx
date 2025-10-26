@@ -69,7 +69,7 @@ export default function FAQ() {
       initial="hidden"
       animate="visible"
     >
-      <Header title="Frequently Asked Questions" />
+      <Header title="NATO Alphabet" linkToHome={true} />
       <Breadcrumb />
       
       <main className="flex-1 p-6 bg-main">

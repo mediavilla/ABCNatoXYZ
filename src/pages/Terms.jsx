@@ -34,7 +34,7 @@ export default function Terms() {
       initial="hidden"
       animate="visible"
     >
-      <Header title="Terms and Conditions" />
+      <Header title="NATO Alphabet" linkToHome={true} />
       <Breadcrumb />
       
       <main className="flex-1 p-6 bg-main">

@@ -34,7 +34,7 @@ export default function Resources() {
       initial="hidden"
       animate="visible"
     >
-      <Header title="Links and Resources" />
+      <Header title="NATO Alphabet" linkToHome={true} />
       <Breadcrumb />
       
       <main className="flex-1 p-6 bg-main">
@@ -51,18 +51,19 @@ export default function Resources() {
                 <h2 className="text-2xl font-semibold mb-4">Official Standards</h2>
                 <div className="space-y-4">
                   <div className="bg-card border border-border rounded-lg p-4">
-                    <h3 className="font-semibold mb-2">NATO STANAG 2139</h3>
-                    <p className="text-sm text-muted-foreground mb-2">
-                      Official NATO standard for the phonetic alphabet
-                    </p>
-                    <a href="#" className="text-primary hover:underline">Official Documentation</a>
+                      <h3 className="font-semibold mb-2">NATO Phonetic Alphabet</h3>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        The history of the NATO phonetic alphabet.
+                      </p>
+                      <a href="#" className="text-primary hover:underline">NATO phonetic alphabet history</a>
                   </div>
+
                   <div className="bg-card border border-border rounded-lg p-4">
-                    <h3 className="font-semibold mb-2">ICAO Doc 9432</h3>
+                    <h3 className="font-semibold mb-2">NATO phonetic alphabet, codes and signals</h3>
                     <p className="text-sm text-muted-foreground mb-2">
-                      International Civil Aviation Organization standards
+                      Phonetic alphabet, International Morse Code, Flaghoist communication, Semaphore and Panel signalling.
                     </p>
-                    <a href="#" className="text-primary hover:underline">ICAO Standards</a>
+                    <a href="https://www.nato.int/cps/en/natohq/news_150391.htm" className="text-primary hover:underline">Article on the NATO website</a>
                   </div>
                 </div>
               </section>
