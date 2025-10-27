@@ -13,7 +13,7 @@ import Footer from '../components/Footer';
 import { useFavicon } from '../hooks/useFavicon';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { useMorsePlayer } from '../hooks/useMorsePlayer';
-
+ 
 export default function Home() {
   const [inputText, setInputText] = useState('');
   const [showFlags, setShowFlags] = useState(false);

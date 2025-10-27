@@ -14,7 +14,7 @@ export default function Privacy() {
       }
     }
   };
-
+ 
   const contentVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {

@@ -7,7 +7,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import Footer from '../components/Footer';
 import CopyButton from '../components/CopyButton';
 import ShareButton from '../components/ShareButton';
-
+ 
 // Color swatch component
 const ColorSwatch = ({ name, value, description }) => {
   const [copied, setCopied] = useState(false);

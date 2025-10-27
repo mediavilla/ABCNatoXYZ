@@ -27,7 +27,7 @@ export default function Articles() {
     }
   };
 
-  return (
+  return ( 
     <motion.div 
       className="min-h-dvh flex flex-col transition-colors duration-300 ease-in-out"
       variants={pageVariants}
