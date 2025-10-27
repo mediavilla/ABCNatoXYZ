@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <meta name="robots" content="noindex" />
+    <script>
+      // Single Page Apps for GitHub Pages
+      // Redirect 404s to /?p=<original-path>
+      (function() {
+        var l = window.location;
+        var p = l.pathname + l.search + l.hash;
+        // If it’s clearly a static asset, don’t rewrite (optional safeguard)
+        if (p.startsWith('/assets/')) return;
+        l.replace('/?p=' + encodeURIComponent(p));
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
