@@ -24,7 +24,7 @@ function getRoutesFromPages() {
       if (/^[\s]*$/.test(route) || /[\[\]:]/.test(route)) continue
       route = route.replace(/\/+/, '/')
       if (route.length > 1 && route.endsWith('/')) route = route.slice(0, -1)
-      routes.add(route)
+      routes.add(route.toLowerCase())
     }
   }
 
