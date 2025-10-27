@@ -1,16 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import DesignSystem from './pages/DesignSystem';
-import About from './pages/About';
-import FAQ from './pages/FAQ';
-import Freebies from './pages/Freebies';
-import Articles from './pages/Articles';
-import Resources from './pages/Resources';
-import Feedback from './pages/Feedback';
-import Roadmap from './pages/Roadmap';
-import Privacy from './pages/Privacy';
-import Terms from './pages/Terms';
-import Cookies from './pages/Cookies';
+import Home from './pages/home';
+import DesignSystem from './pages/designsystem';
+import About from './pages/about';
+import FAQ from './pages/faq';
+import Freebies from './pages/freebies';
+import Articles from './pages/articles';
+import Resources from './pages/resources';
+import Feedback from './pages/feedback';
+import Roadmap from './pages/roadmap';
+import Privacy from './pages/privacy';
+import Terms from './pages/terms';
+import Cookies from './pages/cookies';
 
 export default function App() {
   return (
