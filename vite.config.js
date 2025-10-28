@@ -35,18 +35,6 @@ function getRoutesFromPages() {
 export default defineConfig({
   plugins: [
     react(),
-    sitemap({
-      base: process.env.VITE_SITE_URL || 'https://abcnato.xyz',
-      // vite-sitemap expects paths without a leading slash
-      urls: getRoutesFromPages().map(p => p.replace(/^\//, '')),
-      changefreq: 'weekly',
-      // Also emit robots.txt at the site root
-      robotsTxt: [
-        'User-agent: *',
-        'Allow: /',
-        `Sitemap: ${(process.env.VITE_SITE_URL || 'https://abcnato.xyz')}/sitemap.xml`
-      ].join('\n')
-    })
   ],
   base: process.env.VITE_BASE_PATH || '/',
   build: {
