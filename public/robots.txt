@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://abcnato.xyz/sitemap.xml
+Sitemap: https://abcnato.xyz/static-sitemap.xml
